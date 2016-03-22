@@ -1,0 +1,71 @@
+@charset "utf-8";
+.page-tabs{
+    .page-tabs-nav{
+        display: box;
+        display: -webkit-box;
+        display: flex;
+        display: -webkit-flex;
+        border-bottom: 1px solid #dfe0e0;
+        li{
+           height: 40px;
+           line-height: 40px;
+           padding:0 30px;
+           border-right:1px solid #dfe0e0;
+           cursor: pointer;
+           &.active{
+               border-bottom:2px solid #2772ee;
+           }
+        }
+    }
+    .page-tabs-container{
+        background-color: #f6f7f8;
+        &>li{
+            display: none;
+            &.active{
+                display: block;
+            }
+            .search-bar{
+                border-bottom: 1px solid #dfe0e0;
+                position: absolute;
+                top:0;
+                width: 100%;
+                display: box;
+                display: -webkit-box;
+                display: flex;
+                display: -webkit-flex;
+                box-align:center ;
+                -webkit-box-align:center;
+                -moz-box-align:center;
+                -ms-box-align:center;
+                align-items:center ;
+                -webkit-align-items:center;
+                height: 50px;
+                line-height: 50px;
+                padding:0 5px;
+                z-index: 10;
+                &>div{
+                    padding:0 5px;
+                    .form-control{
+                        float: none;
+                    }
+                    .btn-group{
+                        display: block;
+                    }
+                }
+                div.bar-full{
+                    box-flex:1;-webkit-box-flex:1;-moz-box-flex:1;-ms-box-flex:1;
+                    flex:1;-webkit-flex:1;
+                }
+                .search-bool{
+                    max-width: 200px;
+                }
+                a{
+                    display: block;
+                }
+            }
+            .table-bordered th{
+                border-color: #dfe0e0;
+            }
+        }
+    }
+}

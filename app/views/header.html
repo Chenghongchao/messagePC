@@ -1,0 +1,69 @@
+<div class="page-navbar">
+    <div class="logo-nav">
+        <img src="images/yeoman.png">
+    </div>
+    <div class="title-nav">
+        后勤宝
+    </div>
+    <div class="top-navigation" top-nav>
+        <ul>
+
+        </ul>
+    </div>
+    <div class="user-nav">
+        <a>wang</a>
+        <ul>
+            <li ng-click="showCard('#newPassword')">修改密码</li>
+            <li ng-click="logout()">退出登陆</li>
+        </ul>
+    </div>
+    <!--<div class="menu-nav">
+        <a>test2</a>
+    </div>-->
+</div>
+<div class="info-card fadeIn animated" id="newPassword" info-card>
+    <div class="info-card-wrapper">
+        <div class="info-card-dialog">
+            <div class="info-card-content">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        修改密码
+                        <a class="info-card-close"><i class="ALiconfont icon-close"></i></a>
+                    </div>
+                    <div class="panel-body">
+                        <form ng-submit="editSave(closeCard('#newPassword'))">
+                        <table class="table-form table-bordered bg-white">
+                            <tbody>
+                                <tr>
+                                    <td class="require">原密码</td><td><input type="password" ng-model="media.old" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="require">新密码</td><td><input type="password" ng-model="media.newPassword" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="require">确认密码</td><td><input type="password" ng-model="media.confirm" /></td>
+                                </tr>
+                                <tr>
+                                    <td></td><td class="td-btn-box">
+                                        <button type="submit" class="btn btn-info">确认修改</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //菜单点击事件
+    $(document).click(function(){
+        var a = event.target;
+        $(".user-nav").removeClass("active");
+        if(a.parentNode.className == "user-nav"){
+            $(a.parentNode).addClass("active");
+        }
+    })
+</script>

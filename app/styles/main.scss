@@ -1,0 +1,126 @@
+@charset "utf-8";
+@import "plugins/bootstrap-datetimepicker.scss";
+@import "framework/header.scss";
+@import "framework/aside.scss";
+@import "framework/menu.scss";
+@import "framework/list.scss";
+@import "framework/loading.scss";
+@import "framework/app.scss";
+@import "framework/login.scss";
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body {
+  padding: 0;
+  font-family: 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+ul{
+    margin:0;padding:0;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+}
+li{list-style: none;}
+a{cursor: pointer;}
+a,a:hover,a:active,a:visited,a:link{text-decoration: none;}
+input:disabled, textarea:disabled {
+    background-color: #f1f1f1;
+}
+.page-header{
+    height:50px;
+    padding: 0;margin:0;
+    border:none;
+}
+.page-aside{
+    width: 170px;
+    border-right:1px solid #dee0e0;
+    background-color: #e4eaf4;
+    position: fixed;
+    z-index: 2;
+    top:50px;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+}
+.page-container{
+    position: fixed;
+    left:170px;
+    right: 0;
+    top:50px;
+    bottom:0;
+    background-color: #f6f7f8;
+    z-index: 3;
+}
+.page-frame{
+    position: fixed;
+    background-color: #fff;
+    top:50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;   
+}
+.page-otherwise{
+    position: fixed;
+    background-color: #fff;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+.loading{
+    position: fixed;
+    top:0;bottom: 0;
+    left: 0;right: 0;
+    z-index: 9000;
+    background-color: rgba(255,255,255,.05); 
+    display: -webkit-box;
+    display: flex;
+    display: -webkit-flex;
+}
+.modal-backdrop{
+    background-color: transparent;
+}
+.modal{
+    background-color: rgba(0,0,0,.4);
+}
+.modal-wrapper{ 
+    display: table; 
+    overflow: auto; 
+    overflow-y: scroll; 
+    height: 100%; 
+    -webkit-overflow-scrolling: touch; 
+    outline: 0; 
+    margin: 0px auto; 
+    padding-top: 50px;
+} 
+
+.modal-dialog{
+    display: table-cell; 
+    vertical-align: middle; 
+}
+div.imgError::before{
+	font-family: "ALiconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+	content: "\e62b";
+	display:inline-block;
+	width:40px;
+	height:80px;
+	line-height:80px;
+	font-size:40px;
+}
+.animated {
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+}
