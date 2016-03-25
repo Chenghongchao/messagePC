@@ -1,46 +1,60 @@
-<ul class="menu-container">
+<ul class="menu-container" ng-show="menuManager==1">
     <li>
-        <div class="menu-title">综合查询</div>
+        <div class="menu-title">留言处理</div>
         <ul class="menu-list">
             <li>
-                <a href="#flat">
-                    <i class="ALiconfont icon-loudong" style="background-color:#38adff;font-size:32px"></i>
-                    按楼查看
-                </a>
-            </li>
-            <li>
-                <a href="#college">
-                    <i class="ALiconfont icon-xuexiao" style="line-height: 45px;background-color:#02cf97;font-size:32px"></i>
-                    按学院查看
+                <a href="#message">
+                    <i class="ALiconfont icon-liuyan1" style="line-height: 45px;background-color:#02cf97;font-size:25px"></i>
+                    留言管理
                 </a>
             </li>
         </ul>
     </li>
     <li>
-        <div class="menu-title">日常调换宿</div>
+        <div class="menu-title">功能设置</div>
         <ul class="menu-list">
             <li>
-                <a href="#live">
+                <a href="#messageSetting">
+                    <i class="ALiconfont icon-loudong" style="background-color:#38adff;font-size:32px"></i>
+                    留言设置
+                </a>
+            </li>
+            <li>
+                <a href="#template">
                     <i class="ALiconfont icon-ruzhu" style="line-height: 45px;background-color:#ff9c00;font-size:32px"></i>
-                    入住
+                    模版消息
                 </a>
             </li>
             <li>
-                <a href="#change">
-                    <i class="ALiconfont icon-tiaosu" style="line-height: 45px;background-color:#fc7257;font-size:32px"></i>
-                    调宿
+                <a href="#setting">
+                    <i class="ALiconfont icon-ruzhu" style="line-height: 45px;background-color:#ff9c00;font-size:32px"></i>
+                    相关设置
                 </a>
             </li>
+        </ul>
+    </li>
+</ul>
+<ul class="menu-container" ng-show="menuManager==2">
+    <li>
+        <div class="menu-title">人员管理</div>
+        <ul class="menu-list">
             <li>
-                <a href="#quit">
-                    <i class="ALiconfont icon-tuisu" style="line-height: 45px;background-color:#02cf97;font-size:32px"></i>
-                    退宿
+                <a href="#manager">
+                    <i class="ALiconfont icon-ruzhu" style="line-height: 45px;background-color:#fc7257;font-size:32px"></i>
+                    回复人员
                 </a>
             </li>
+        </ul>
+    </li>
+</ul>
+<ul class="menu-container" ng-show="menuManager==3">
+    <li>
+        <div class="menu-title">统计分析</div>
+        <ul class="menu-list">
             <li>
-                <a href="#check">
-                    <i class="ALiconfont icon-susheshenpi" style="line-height: 45px;background-color:#38adff;font-size:32px"></i>
-                    审批
+                <a>
+                    <i class="ALiconfont icon-ruzhu" style="line-height: 45px;background-color:#ff9c00;font-size:32px"></i>
+                    开发中...
                 </a>
             </li>
         </ul>

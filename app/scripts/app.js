@@ -26,9 +26,26 @@ angular
   })
   .run(['$rootScope', '$location', 'AppConfig',
 		function($rootScope, $location, AppConfig) {
+            $rootScope.menuManager = 1;
 			$rootScope.$on('$stateChangeStart',
 				function(event, toState, toParams, fromState, fromParams) {
-                    
+                    switch(toState.name){
+                        case 'setting':
+                            $rootScope.menuManager = 1;
+                            break;
+                        case 'template':
+                            $rootScope.menuManager = 1;
+                            break;
+                        case 'message':
+                            $rootScope.menuManager = 1;
+                            break;
+                        case 'messageSetting':
+                            $rootScope.menuManager = 1;
+                            break;
+                        case 'manager':
+                            $rootScope.menuManager = 2;
+                            break;
+                    }
                     $rootScope.loading = true;
                     // console.log(AppConfig.nodeIds)
             });
@@ -59,10 +76,97 @@ angular
         url: "/index",
         views: {
             "": {
-                templateUrl: 'views/menu.html'
+                templateUrl: 'views/menu.html',
+                controller: 'MenuCtrl'
             },
             "aside": {
-                templateUrl: "views/aside.html"
+                templateUrl: "views/aside.html",
+                controller: 'MenuCtrl'
+            },
+            "header": {
+                templateUrl: "views/header.html",
+                controller: 'HeaderCtrl'
+            }
+        }
+    })
+    .state('message', {
+        url: "/message",
+        views: {
+            "": {
+                templateUrl: 'views/message.html',
+                controller: 'MessageCtrl'
+            },
+            "aside": {
+                templateUrl: "views/aside.html",
+                controller: 'MenuCtrl'
+            },
+            "header": {
+                templateUrl: "views/header.html",
+                controller: 'HeaderCtrl'
+            }
+        }
+    })
+    .state('messageSetting', {
+        url: "/messageSetting",
+        views: {
+            "": {
+                templateUrl: 'views/messageSetting.html',
+                controller: 'MessageSettingCtrl'
+            },
+            "aside": {
+                templateUrl: "views/aside.html",
+                controller: 'MenuCtrl'
+            },
+            "header": {
+                templateUrl: "views/header.html",
+                controller: 'HeaderCtrl'
+            }
+        }
+    })
+    .state('manager', {
+        url: "/manager",
+        views: {
+            "": {
+                templateUrl: 'views/manager.html',
+                controller: 'ManagerCtrl'
+            },
+            "aside": {
+                templateUrl: "views/aside.html",
+                controller: 'MenuCtrl'
+            },
+            "header": {
+                templateUrl: "views/header.html",
+                controller: 'HeaderCtrl'
+            }
+        }
+    })
+    .state('template', {
+        url: "/template",
+        views: {
+            "": {
+                templateUrl: 'views/template.html',
+                controller: 'TemplateCtrl'
+            },
+            "aside": {
+                templateUrl: "views/aside.html",
+                controller: 'MenuCtrl'
+            },
+            "header": {
+                templateUrl: "views/header.html",
+                controller: 'HeaderCtrl'
+            }
+        }
+    })
+    .state('setting', {
+        url: "/setting",
+        views: {
+            "": {
+                templateUrl: 'views/setting.html',
+                controller: 'SettingCtrl'
+            },
+            "aside": {
+                templateUrl: "views/aside.html",
+                controller: 'MenuCtrl'
             },
             "header": {
                 templateUrl: "views/header.html",

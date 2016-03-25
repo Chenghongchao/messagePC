@@ -91,6 +91,12 @@
     .grade-number span{
         color: #2772ee;
     }
+    .message-tips{
+        font-size:16px;
+        span{
+            color: #2772ee;
+        }
+    }
 }
 
 .page-main{
@@ -212,6 +218,14 @@ table{
             color: #f88311;
         }
     }
+    &.table > tbody > tr > td.delete {
+        padding: 0;
+        div{
+            padding: 10px 15px;
+            border-left:2px solid #e11144;
+            color: #e11144;
+        }
+    }
     .btn-link {
         color: #337ab7;
     }
@@ -226,7 +240,7 @@ table{
                 content:"* ";
                 color: #f33;
             }
-            input,select{
+            input,select,textarea{
                 border:1px solid #d6d8db;
                 padding:3px 6px; 
             }

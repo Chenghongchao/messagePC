@@ -1,0 +1,222 @@
+<div class="history-container">
+    <a class="return-btn" href="javascript:history.go(-1)">
+        <i class="ALiconfont icon-sortleft"></i>
+        返回
+    </a>
+    <ul class="history-list">
+        <li><a href="#index">服务监督</a></li>
+        <li><a href="#index">留言管理</a></li>
+        <li>入住</li>
+    </ul>
+</div>
+<div class="tool-bar">
+    <div class="bar-full message-tips">
+        <span>待回复</span>/已回复: <span>16</span> / 50
+    </div>
+    <div class="group-tool">
+        <div class="btn-group">
+            <button type="button" class="btn btn-info" ng-click="setStatus(-1)" ng-class="{'btn-stroke':media.status>=0}">待回复</button>
+            <button type="button" class="btn btn-info" ng-click="setStatus(0)" ng-class="{'btn-stroke':media.status!=0}">已回复</button>
+            <button type="button" class="btn btn-info" ng-click="setStatus(1)" ng-class="{'btn-stroke':media.status!=1}">所有</button>
+        </div>
+    </div>
+    <div class="search-option">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{media.search?'学号':'姓名'}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" style="min-width:66px">
+                <li ng-click="media.search=0"><a>姓名</a></li>
+                <li ng-click="media.search=1"><a>学号</a></li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <form ng-submit="search(searchText)" class="input-group search-bool">
+            <input type="text" class="form-control" ng-model="searchText" placeholder="检索">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </span>
+        </form>
+    </div>
+</div>
+<div class="page-main">
+    <div class="page-tree" tree>
+        <ul>
+            <li class="open" ng-repeat="group in tree">
+                <a ng-class="{'branch':group.nodes,'leaf':!group.nodes}">{{group.title}}</a>
+                <ul ng-show="group.nodes">
+                    <li class="open" ng-repeat="item in group.nodes||[]">
+                        <a ng-class="leaf">{{item.title}}（<span>{{item.number}}</span>）</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="table-container" style="left:225px;bottom:54px;">
+        <table class="table table-bordered table-hover bg-white" style="margin:-1px 0 0 -1px">
+            <thead>
+                <tr>
+                    <th>留言类型</th>
+                    <th class="sort" ng-class="{'sort-up':media.orderfield=='name' && media.ordertype=='asc','sort-down':media.orderfield=='name' && media.ordertype=='desc'}" ng-click="setOrder('name')">姓名</th>
+                    <th>内容</th>
+                    <th class="sort" ng-class="{'sort-up':media.orderfield=='studentNumber' && media.ordertype=='asc','sort-down':media.orderfield=='studentNumber' && media.ordertype=='desc'}" ng-click="setOrder('studentNumber')">已等候时间</th>
+                    <th>联系方式</th>
+                    <th>服务单位</th>
+                    <th>当前状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list">
+                    <td ng-class="{'planing':item.type==0,'checked':item.type==1,'delete':item.type==3,'return':item.type==2}">
+                        <div>
+                            {{item.type==0?'建议':(item.type==1?'咨询':(item.type==2?'投诉':'举报'))}}
+                        </div>
+                    </td>
+                    <td>{{item.name}}</td><td>{{item.comment}}</td><td>{{item.time}}</td><td>{{item.phone}}</td><td>{{item.group}}</td><td>{{item.status?'已回复':'待回复'}}</td>
+                    <td><button type="button" class="btn btn-link btn-xs" ng-click="showCard('#detail')">查看详情</button></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="10" ng-hide="media.recordCount" class="empty">没有检索到留言纪录</td>
+                </tr>
+            </tfoot>
+        </table>
+        
+    </div>
+    <div class="page-controller" style="left:225px;">
+        <div class="page-number">
+            <ul class="pagination">
+                <li ng-class="{disabled:media.epage<2}">
+                    <a aria-label="Previous" ng-click="setPage(-1)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li ng-show="media.epage-2>0"><a ng-click="setPage(-2)">{{media.epage-2}}</a></li>
+                <li ng-show="media.epage-1>0"><a ng-click="setPage(-1)">{{media.epage-1}}</a></li>
+                <li class="active"><a>{{media.epage}}</a></li>
+                <li ng-show="media.epage+1<=media.pageCount"><a ng-click="setPage(1)">{{media.epage+1}}</a></li>
+                <li ng-show="media.epage+2<=media.pageCount"><a ng-click="setPage(2)">{{media.epage+2}}</a></li>
+                <li ng-class="{disabled:media.epage>=media.pageCount}">
+                    <a aria-label="Next" ng-click="setPage(1)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="page-size">
+            共{{media.recordCount}}条记录，每页显示
+            <div class="btn-group dropup">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{media.pagesize}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" style="min-width:54px">
+                    <li ng-click="setPageSize(10)"><a>10</a></li>
+                    <li ng-click="setPageSize(20)"><a>20</a></li>
+                    <li ng-click="setPageSize(30)"><a>30</a></li>
+                    <li ng-click="setPageSize(50)"><a>50</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="info-card fadeIn animated" info-card id="detail">
+    <div class="info-card-wrapper">
+        <div class="info-card-dialog">
+            <div class="info-card-content">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        留言信息
+                        <a class="info-card-close"><i class="ALiconfont icon-close"></i></a>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="check-list">
+                            <li class="submited checked">
+                                <div class="check-point "></div>
+                                <div class="check-info">
+                                    <div class="check-info-title">
+                                        <div class="check-info-tip">受理单位</div> 
+                                        <div>餐饮管理中心</div>
+                                    </div>
+                                    <div class="check-info-content">
+                                        <div class="check-info-label">留言内容</div> 
+                                        <div>餐厅的饭好难吃阿！那么贵，那么少，还死难吃。强烈要求学校调查管理。</div>
+                                    </div>
+                                    <div class="check-info-title">
+                                        <div class="check-info-tip"></div> 
+                                        <div>2015-12-13   13:58</div>
+                                        <div><span>留言人</span>：我是昵称</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="checked passed">
+                                <div class="check-point"></div>
+                                <div class="check-info">
+                                    <div class="check-info-content">
+                                        <div class="check-info-label">回复内容</div> 
+                                        <div>您的情况，我们已经受理</div>
+                                    </div>
+                                    <div class="check-info-title">
+                                        <div class="check-info-tip"></div> 
+                                        <div>2015-12-13   13:58</div>
+                                        <div><span>回复人</span>：我是昵称</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="checked passed">
+                                <div class="check-point"></div>
+                                <div class="check-info">
+                                    <div class="check-info-content">
+                                        <div class="check-info-label">回复内容</div> 
+                                        <div>您的情况，餐厅表示不予处理</div>
+                                    </div>
+                                    <div class="check-info-title">
+                                        <div class="check-info-tip"></div> 
+                                        <div>2015-12-13   13:58</div>
+                                        <div><span>回复人</span>：我是昵称</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="check-point"></div>
+                                <div>
+                                    <div class="check-info">
+                                        <i class="word-count">200</i>
+                                        <textarea rows="4"></textarea>
+                                    </div>
+                                    <div class="check-btn-box">
+                                        <div>
+                                            <a class="btn btn-addon btn-success"><i class="glyphicon glyphicon-ok"></i>回复</a>
+                                        </div>
+                                        <div>
+                                        </div>
+                                        <div>
+                                            <a class="btn btn-default">取消</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="check-point"></div>
+                                <div>
+                                    <div class="check-btn-box">
+                                        <div>
+                                            <a class="btn btn-addon btn-warning"><i class="glyphicon glyphicon-bell"></i>提醒</a>
+                                        </div>
+                                        <div>
+                                        </div>
+                                        <div>
+                                            <a class="btn btn-default">取消</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

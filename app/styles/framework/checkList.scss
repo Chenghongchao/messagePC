@@ -63,6 +63,7 @@
         .check-info{
             background-color: #fff;
             border:1px solid #dedfdf;
+            position: relative;
             .check-info-title{
                 height: 50px;
                 line-height: 50px;
@@ -86,8 +87,41 @@
                     }
                 }
             }
+            .check-info-content{
+                padding: 14px 10px;
+                display: box;
+                display: -webkit-box;
+                display: flex;
+                display: -webkit-flex;
+                border-top: 1px solid #dedfdf;
+                border-bottom: 1px solid #dedfdf;
+                margin-top:-1px;
+                .check-info-label{
+                    width: 100px;
+                    color: #888;
+                }
+                &>div:nth-of-type(2){
+                    -webkit-box-flex:1;
+                    box-flex:1;
+                    flex:1;
+                    -webkit-flex: 1;
+                }
+            }
             .table{
                 margin-bottom: 0;
+            }
+            textarea{
+                border: none;
+                display: block;
+                width: 100%;
+                padding: 5px;
+            }
+            i.word-count{
+                position: absolute;
+                right: 15px;
+                bottom: 5px;
+                font-style: normal;
+                color: #ccc;
             }
         }
         .check-btn-box,.check-input-box{

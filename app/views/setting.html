@@ -1,0 +1,53 @@
+<div class="history-container">
+    <a class="return-btn" href="javascript:history.go(-1)">
+        <i class="ALiconfont icon-sortleft"></i>
+        返回
+    </a>
+    <ul class="history-list">
+        <li><a href="#index">服务监督</a></li>
+        <li><a href="#index">设置</a></li>
+        <li>设置</li>
+    </ul>
+</div>
+<div class="page-main" style="top:49px;">
+    <div class="page-tree" tree>
+        <ul>
+            <li class="open" ng-repeat="group in tree">
+                <a ng-class="{'branch':group.nodes,'leaf':!group.nodes}">{{group.title}}</a>
+                <ul ng-show="group.nodes">
+                    <li class="open" ng-repeat="item in group.nodes||[]" >
+                        <a class="leaf">{{item.title}}</a>
+                    </li>
+                    <li><a class="add"><i class="ALiconfont icon-plus1"></i> 添加服务中心</a></li>
+                </ul>
+            </li>
+            <li><a class="add"><i class="ALiconfont icon-plus1"></i> 添加校区</a></li>
+            <li><a class="add"><i class="ALiconfont icon-plus1"></i> 添加服务中心</a></li>
+        </ul>
+    </div>
+    <div class="from-container" style="left:225px;">
+        <table class="table-form table-bordered bg-white">
+            <tr>
+                <td class="require" width="200">校区</td><td><input type="text" ng-model="media.title" /></td>
+            </tr>
+            <tr>
+                <td class="require" width="200">服务中心</td><td><input type="text" ng-model="media.title" /></td>
+            </tr>
+            <tr>
+                <td class="require" width="200">职责范围</td>
+                <td>
+                    <textarea  rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td></td><td>
+                    <div class="btn-box">
+                        <button ng-class="{'btn-success':media.status,'btn-info':!media.status}" ng-click="media.status?addSave():editSave()" class="btn">{{media.status?'提交':'保存'}}</button>
+                        <button ng-show="media.status == 0" ng-click="delete()" class="btn btn-danger">删除</button>
+                    </div>
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
