@@ -16,7 +16,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-    <link rel="stylesheet" href="http://7xp0c4.com2.z0.glb.qiniucdn.com/iconfont-1.34.css" />
+    <link rel="stylesheet" href="http://7xp0c4.com2.z0.glb.qiniucdn.com/iconfont-1.36.css" />
   </head>
   <body ng-app="messagePcApp">
     <!--[if lte IE 8]>
@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-<div class="login-view" ui-view='login' ng-hide="loginSwitch" style="display:none"></div>
+<div class="login-view" ui-view='login' ng-hide="loginSwitch"></div>
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -79,6 +79,13 @@
         <script src="scripts/directives/tree.js"></script>
         <script src="scripts/directives/header.js"></script>
         <script src="scripts/directives/infoCard.js"></script>
+        TransferString
+        <script src="scripts/factories/message.js"></script>
+        <script src="scripts/factories/setting.js"></script>
+        <script src="scripts/factories/user.js"></script>
+        
+        
+        <script src="scripts/filters/TransferString.js"></script>
         <!-- endbuild -->
 </body>
 </html>

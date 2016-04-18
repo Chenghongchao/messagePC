@@ -12,42 +12,50 @@
 <div class="page-main" style="top:49px;">
     <div class="page-tree" tree>
         <ul>
-            <li class="open" ng-repeat="group in tree">
-                <a ng-class="{'branch':group.nodes,'leaf':!group.nodes}">{{group.title}}</a>
-                <ul ng-show="group.nodes">
-                    <li class="open" ng-repeat="item in group.nodes||[]" >
-                        <a class="leaf">{{item.title}}</a>
+            <li class="open" ng-repeat="group in treeSchoole">
+                <a ng-click="media.show(0,group)" ng-class="{'branch':group.slist,'leaf':!group.slist}">{{group.campus}}</a>
+                <ul ng-show="group.slist">
+                    <li class="open" ng-repeat="item in group.slist||[]" >
+                        <a ng-click="media.show(1,item,group.campus)" class="leaf">{{item.dutyname}}</a>
                     </li>
-                    <li><a class="add"><i class="ALiconfont icon-plus1"></i> 添加服务中心</a></li>
+                    <li><a class="add" ng-click="media.add(1,group)"><i class="ALiconfont icon-plus1"></i> 添加服务中心</a></li>
                 </ul>
             </li>
-            <li><a class="add"><i class="ALiconfont icon-plus1"></i> 添加校区</a></li>
-            <li><a class="add"><i class="ALiconfont icon-plus1"></i> 添加服务中心</a></li>
+            <li><a class="add" ng-click="media.add(0)"><i class="ALiconfont icon-plus1"></i> 添加校区</a></li>
         </ul>
     </div>
-    <div class="from-container" style="left:225px;">
+    <form ng-submit="subSave()" class="from-container" style="left:225px;">
         <table class="table-form table-bordered bg-white">
             <tr>
-                <td class="require" width="200">校区</td><td><input type="text" ng-model="media.title" /></td>
+                <td class="require" width="200">校区</td><td><input type="text" ng-disabled="media.type" ng-model="media.campus" /></td>
             </tr>
-            <tr>
-                <td class="require" width="200">服务中心</td><td><input type="text" ng-model="media.title" /></td>
+            <tr ng-show="media.type">
+                <td class="require" width="200">服务中心</td><td><input type="text" ng-model="media.dutyname" /></td>
             </tr>
-            <tr>
+            <tr ng-show="media.type">
+                <td class="require" width="200">选择人员</td>
+                <td>
+                    <select ng-model="media.staffkey" class="form-control" style="display:inline-block;width:auto;">
+                        <option value="">请选择</option>
+                        <option ng-repeat="manager in managerList" value="{{manager.staffkey}}">{{manager.username}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr ng-show="media.type">
                 <td class="require" width="200">职责范围</td>
                 <td>
-                    <textarea  rows="3"></textarea>
+                    <textarea ng-model="media.remarks" rows="3"></textarea>
                 </td>
             </tr>
             <tr>
                 <td></td><td>
                     <div class="btn-box">
-                        <button ng-class="{'btn-success':media.status,'btn-info':!media.status}" ng-click="media.status?addSave():editSave()" class="btn">{{media.status?'提交':'保存'}}</button>
-                        <button ng-show="media.status == 0" ng-click="delete()" class="btn btn-danger">删除</button>
+                        <button type="submit" ng-class="{'btn-success':media.status,'btn-info':!media.status}" class="btn">{{media.status?'提交':'保存'}}</button>
+                        <a ng-show="media.status == 0" ng-click="delete()" class="btn btn-danger">删除</a>
                     </div>
                 </td>
             </tr>
             
         </table>
-    </div>
+    </form>
 </div>

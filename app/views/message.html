@@ -11,13 +11,13 @@
 </div>
 <div class="tool-bar">
     <div class="bar-full message-tips">
-        <span>待回复</span>/已回复: <span>16</span> / 50
+        <span>待回复</span>/已回复: <span>{{media.ReplyCount}}</span> / {{media.ToReplyCount}}
     </div>
     <div class="group-tool">
         <div class="btn-group">
-            <button type="button" class="btn btn-info" ng-click="setStatus(-1)" ng-class="{'btn-stroke':media.status>=0}">待回复</button>
-            <button type="button" class="btn btn-info" ng-click="setStatus(0)" ng-class="{'btn-stroke':media.status!=0}">已回复</button>
-            <button type="button" class="btn btn-info" ng-click="setStatus(1)" ng-class="{'btn-stroke':media.status!=1}">所有</button>
+            <button type="button" class="btn btn-info" ng-click="setStatus(0)" ng-class="{'btn-stroke':media.status>0}">待回复</button>
+            <button type="button" class="btn btn-info" ng-click="setStatus(1)" ng-class="{'btn-stroke':media.status!=1}">已回复</button>
+            <button type="button" class="btn btn-info" ng-click="setStatus(2)" ng-class="{'btn-stroke':media.status!=2}">所有</button>
         </div>
     </div>
     <div class="search-option">
@@ -44,10 +44,10 @@
     <div class="page-tree" tree>
         <ul>
             <li class="open" ng-repeat="group in tree">
-                <a ng-class="{'branch':group.nodes,'leaf':!group.nodes}">{{group.title}}</a>
-                <ul ng-show="group.nodes">
-                    <li class="open" ng-repeat="item in group.nodes||[]">
-                        <a ng-class="leaf">{{item.title}}（<span>{{item.number}}</span>）</a>
+                <a ng-click="show(0)" ng-class="{'branch':group.list,'leaf':!group.list}">{{group.name}}</a>
+                <ul ng-show="group.list">
+                    <li class="open" ng-repeat="item in group.list||[]">
+                        <a ng-click="show(1,item)" ng-class="leaf">{{item.name}}（<span>{{item.tcount}}</span>）</a>
                     </li>
                 </ul>
             </li>
@@ -58,7 +58,7 @@
             <thead>
                 <tr>
                     <th>留言类型</th>
-                    <th class="sort" ng-class="{'sort-up':media.orderfield=='name' && media.ordertype=='asc','sort-down':media.orderfield=='name' && media.ordertype=='desc'}" ng-click="setOrder('name')">姓名</th>
+                    <th class="sort" ng-class="{'sort-up':media.orderfield=='username' && media.ordertype=='asc','sort-down':media.orderfield=='username' && media.ordertype=='desc'}" ng-click="setOrder('username')">姓名</th>
                     <th>内容</th>
                     <th class="sort" ng-class="{'sort-up':media.orderfield=='studentNumber' && media.ordertype=='asc','sort-down':media.orderfield=='studentNumber' && media.ordertype=='desc'}" ng-click="setOrder('studentNumber')">已等候时间</th>
                     <th>联系方式</th>
@@ -71,11 +71,11 @@
                 <tr ng-repeat="item in list">
                     <td ng-class="{'planing':item.type==0,'checked':item.type==1,'delete':item.type==3,'return':item.type==2}">
                         <div>
-                            {{item.type==0?'建议':(item.type==1?'咨询':(item.type==2?'投诉':'举报'))}}
+                            {{item.tid}}
                         </div>
                     </td>
-                    <td>{{item.name}}</td><td>{{item.comment}}</td><td>{{item.time}}</td><td>{{item.phone}}</td><td>{{item.group}}</td><td>{{item.status?'已回复':'待回复'}}</td>
-                    <td><button type="button" class="btn btn-link btn-xs" ng-click="showCard('#detail')">查看详情</button></td>
+                    <td>{{item.username}}</td><td>{{item.content}}</td><td>{{item.waittime}}</td><td>{{item.contactmode}}</td><td>{{item.sid}}</td><td>{{item.state==1?'已回复':'待回复'}}</td>
+                    <td><button type="button" class="btn btn-link btn-xs" ng-click="showCard({selecter:'#detail',before:dataInfo(item)})">查看详情</button></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -138,77 +138,78 @@
                                 <div class="check-info">
                                     <div class="check-info-title">
                                         <div class="check-info-tip">受理单位</div> 
-                                        <div>餐饮管理中心</div>
+                                        <div>{{work.sid}}</div>
                                     </div>
                                     <div class="check-info-content">
                                         <div class="check-info-label">留言内容</div> 
-                                        <div>餐厅的饭好难吃阿！那么贵，那么少，还死难吃。强烈要求学校调查管理。</div>
+                                        <div>{{work.content}}</div>
                                     </div>
                                     <div class="check-info-title">
-                                        <div class="check-info-tip"></div> 
-                                        <div>2015-12-13   13:58</div>
-                                        <div><span>留言人</span>：我是昵称</div>
+                                        <div class="check-info-tip"><a class="btn btn-xs" ng-class="{'btn-success':work.color==0,'btn-info':work.color==1,'btn-warning':work.color==2,'btn-danger':work.color==3,}" style="border-radius:5px;">{{work.tname}}</a></div> 
+                                        <div>{{work.createdate}}</div>
+                                        <div><span>留言人</span>：{{work.username}}</div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="checked passed">
+                            <li ng-repeat="reply in work.list" class="checked passed">
                                 <div class="check-point"></div>
                                 <div class="check-info">
                                     <div class="check-info-content">
                                         <div class="check-info-label">回复内容</div> 
-                                        <div>您的情况，我们已经受理</div>
+                                        <div ng-bind-html="reply.replycontent|TransferString"></div>
                                     </div>
                                     <div class="check-info-title">
                                         <div class="check-info-tip"></div> 
-                                        <div>2015-12-13   13:58</div>
-                                        <div><span>回复人</span>：我是昵称</div>
+                                        <div>{{reply.rcreatedate}}</div>
+                                        <div><span>回复人</span>：{{reply.replyname}}</div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="checked passed">
-                                <div class="check-point"></div>
-                                <div class="check-info">
-                                    <div class="check-info-content">
-                                        <div class="check-info-label">回复内容</div> 
-                                        <div>您的情况，餐厅表示不予处理</div>
-                                    </div>
-                                    <div class="check-info-title">
-                                        <div class="check-info-tip"></div> 
-                                        <div>2015-12-13   13:58</div>
-                                        <div><span>回复人</span>：我是昵称</div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
+                            <li ng-if="work.list.length>0">
                                 <div class="check-point"></div>
                                 <div>
                                     <div class="check-info">
                                         <i class="word-count">200</i>
-                                        <textarea rows="4"></textarea>
+                                        <textarea ng-model="form.content" rows="4"></textarea>
                                     </div>
                                     <div class="check-btn-box">
                                         <div>
-                                            <a class="btn btn-addon btn-success"><i class="glyphicon glyphicon-ok"></i>回复</a>
+                                            <a ng-click="form.reply()" class="btn btn-addon btn-success"><i class="glyphicon glyphicon-ok"></i>回复</a>
                                         </div>
                                         <div>
                                         </div>
                                         <div>
-                                            <a class="btn btn-default">取消</a>
+                                            <a class="btn btn-danger" ng-click="delete(work.id,closeCard('#detail'))">删除</a>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                            <li>
+                            <li ng-if="work.list.length<1">
                                 <div class="check-point"></div>
-                                <div>
+                                <div ng-hide="noticeSwitch">
                                     <div class="check-btn-box">
                                         <div>
-                                            <a class="btn btn-addon btn-warning"><i class="glyphicon glyphicon-bell"></i>提醒</a>
+                                            <a class="btn btn-addon btn-warning" ng-click="noticeBox(1)"><i class="glyphicon glyphicon-bell"></i>提醒</a>
                                         </div>
                                         <div>
                                         </div>
                                         <div>
-                                            <a class="btn btn-default">取消</a>
+                                            <a class="btn btn-danger" ng-click="delete(work.id,closeCard('#detail'))">删除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="noticeSwitch">
+                                    <div class="check-btn-box">
+                                        <div>
+                                            <select class="form-control">
+                                                <option value="">请选择模版消息</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <a class="btn btn-addon btn-info"><i class="glyphicon glyphicon-send"></i>发送</a>
+                                        </div>
+                                        <div>
+                                            <a class="btn btn-default" ng-click="noticeBox(0)">取消</a>
                                         </div>
                                     </div>
                                 </div>

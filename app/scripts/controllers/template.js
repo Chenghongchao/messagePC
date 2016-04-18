@@ -8,7 +8,7 @@
  * Controller of the messagePcApp
  */
 angular.module('messagePcApp')
-  .controller('TemplateCtrl', ['$scope','$rootScope',function ($scope,$rootScope) {
+  .controller('TemplateCtrl', ['$scope','$rootScope','SettingService',function ($scope,$rootScope,SettingService) {
     $rootScope.loading = false;
     //基础的页码、排序等等选项
     $scope.media = {
@@ -43,51 +43,108 @@ angular.module('messagePcApp')
             $scope.media.ordertype = "asc";
         }
     }
-    //调整查询规则，计划中、已审批、已取消、已驳回
-    $scope.setStatus = function(status){
-        $scope.media.status = status;
-    }
-    //检索功能
-    $scope.search = function(search){
-        $scope.media.name = $scope.media.search?'':search;
-        $scope.media.studentnumber = $scope.media.search?search:'';
-    };
     
+    
+    $scope.delete = function (id) {
+        swal({   
+                title: "确认删除",   
+                text: "真的要删除吗？",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "删除",   
+                cancelButtonText: "取消",   
+                closeOnConfirm: false 
+            }, 
+            function(){   
+                $rootScope.loading = true;
+                return SettingService.delTemplate({
+                    id:id
+                }).success(function(data){
+                    $rootScope.loading = false;
+                    
+                    if(data.code == 0){
+                        swal("提示", "删除成功！", "success"); 
+                        refresh();
+                    }else if(data.code == 4037){
+                    swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                    location.href="#login";$rootScope.loading = false;
+                }
+                    else
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                });
+        });
+    }
     $scope.form = {
         status:0,
-        name:'',
-        username:'',
-        number:'',
-        office:'',
-        officeId:0,
-        campusId:0,
+        templateconfig:'',
+        templatename:"",
+        id:0,
         dataInit:function (item) {
             this.status = item?1:0;
-            this.name = item?(item.name||''):'';
-            this.username = '' + (item?(item.username||''):'');
-            this.number = '' + (item?(item.number||''):'');
-            this.officeId = '' + (item?(item.officeId||0):0);
-            this.campusId = '' + (item?(item.campusId||0):0);
-            this.phone = '' + (item?(item.phone||''):'');
+            this.templateconfig = item?(item.templateconfig||''):'';
+            this.templatename = '' + (item?(item.templatename||""):"");
+            this.id = '' + (item?(item.id||0):0);
+        },
+        subSave:function (fun) {
+            if(this.status){
+                return SettingService.editTemplate({
+                    templatename:this.templatename,
+                    templateconfig:this.templateconfig,
+                    id:this.id,
+                }).success(function(data){
+                    $rootScope.loading = false;
+                    
+                    if(data.code == 0){
+                        swal("提示", "修改成功！", "success"); 
+                        if(fun)fun();
+                        refresh();
+                    }else if(data.code == 4037){
+                            swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                            location.href="#login";$rootScope.loading = false;
+                        }
+                    else
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                })
+            }else{
+                return SettingService.addTemplate({
+                    templatename:this.templatename,
+                    templateconfig:this.templateconfig,
+                }).success(function(data){
+                    $rootScope.loading = false;
+                    
+                    if(data.code == 0){
+                        swal("提示", "添加成功！", "success"); 
+                        if(fun)fun();
+                        refresh();
+                    }else if(data.code == 4037){
+                            swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                            location.href="#login";$rootScope.loading = false;
+                        }
+                    else
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                })
+            }
         }
     }
     
-    $scope.list = [
-        {
-            name:'模板1号',
-            tid:123123123
-        },
-        {
-            name:'模板2号',
-            tid:123123123
-        },
-        {
-            name:'模板3号',
-            tid:123123123
-        },
-        {
-            name:'模板4号',
-            tid:123123123
-        }
-    ]
+    refresh();
+    function refresh() {
+        $rootScope.loading = true;
+        return SettingService.getTemplateList($scope.media).success(function(data){
+            console.log(data);
+            if(data.code == 0){
+                $scope.list = data.data.list;
+                $scope.media.recordCount = data.data.recordCount;
+                $scope.media.pageCount = data.data.pageCount;
+            }else if(data.code == 4037){
+                    swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                    location.href="#login";$rootScope.loading = false;
+                }
+            else
+                swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+            $rootScope.loading = false;
+            
+        });
+    }
   }]);

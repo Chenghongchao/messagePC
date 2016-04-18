@@ -1,0 +1,70 @@
+10
+
+dir
+0
+https://wangzhengyang@192.168.2.117:443/svn/WebPro/messagePC/app/scripts
+https://wangzhengyang@192.168.2.117:443/svn/WebPro
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+20e52330-ddb0-2c40-a99c-3c1bb3668e64
+
+factories
+dir
+
+
+
+add
+
+directives
+dir
+
+
+
+add
+
+plugins
+dir
+
+
+
+add
+
+controllers
+dir
+
+
+
+add
+
+filters
+dir
+
+
+
+add
+
+app.js
+file
+
+
+
+add
+

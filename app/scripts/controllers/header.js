@@ -10,5 +10,9 @@
 angular.module('messagePcApp')
   .controller('HeaderCtrl', ['$scope','$rootScope','AppConfig',
   function($scope,$rootScope,AppConfig) {
+        $scope.username = AppConfig.schoolname;
+        $scope.logout = function () {
+            location.href="#login"
+        }
         
     }]);

@@ -17,18 +17,26 @@ angular
     'ngTouch'
   ])
   .constant('AppConfig',{
-     // WEB_ROOT:'http://120.55.84.193/Geese_Apartment/',
+     WEB_ROOT:'http://120.55.84.193/Geese_Quality_Supervision/',
     //   WEB_ROOT:'http://test.houqinbao.com/gyxt_api/',
-      schoolCode:0,
-	  token:'',
-      adminId:0,
-      nodeIds:''
+      schoolCode:sessionStorage.schoolCode || 0,
+	  token:sessionStorage.token || 0,
+      staffkey:sessionStorage.staffkey || 0,
+      schoolname:sessionStorage.schoolname
   })
   .run(['$rootScope', '$location', 'AppConfig',
 		function($rootScope, $location, AppConfig) {
             $rootScope.menuManager = 1;
+            $rootScope.loginSwitch = true;
+            
+            
 			$rootScope.$on('$stateChangeStart',
 				function(event, toState, toParams, fromState, fromParams) {
+                    if(toState.name!='login'){
+                        if(!AppConfig.schoolCode || !AppConfig.token){
+                            location.href = "#login";
+                        }
+                    }
                     switch(toState.name){
                         case 'setting':
                             $rootScope.menuManager = 1;
