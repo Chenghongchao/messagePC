@@ -18,17 +18,17 @@ angular.module('messagePcApp')
             sessionid:''
         };
         $rootScope.loading = false;
+        
         $scope.login = function () {
             if($scope.media.user.length > 0 && $scope.media.pass.length > 0){
                 $rootScope.loading = true;
-                UserService.login({
+                UserService.loginMessage({
                     account:$scope.media.user,
                     password:$scope.media.pass
                 }).success(function (data) {
-                    $rootScope.loading = false;
                     if(data.code == 0){
                         // sessionStorage.staffkey = data.data.staffkey;
-                        sessionStorage.token = data.data.token;
+                        sessionStorage.tokenMessage = data.data.token;
                         sessionStorage.schoolCode = data.data.schoolcode;
                         sessionStorage.schoolname = data.data.schoolname || 'test';
                         sessionStorage.roleName = data.data.rolename;
@@ -47,14 +47,64 @@ angular.module('messagePcApp')
                             localStorage.username = "";
                             localStorage.remember = 0;
                         }
+                        var form = document.createElement("form");
+                        form.target = "test";
+                        form.method = "post";
+                        form.action = "/index.php?s=/Home/User/login.html";
+                        var input1 = document.createElement("input"),input2 = document.createElement("input");
+                        input1.name = "username";
+                        input1.value = $scope.media.user;
                         
-                        location.href = '#index';
-                        $rootScope.loginSwitch = true;
+                        input2.name = "password";
+                        input2.value = $scope.media.pass;
+                        
+                        form.appendChild(input1);
+                        form.appendChild(input2);
+                        
+                        form.submit();
+                        login();
+                        
                     }
                     else
                         swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
                 })
             }
             
+        }
+        function login() {
+            UserService.login({
+                useraccount:$scope.media.user,
+                password:$scope.media.pass,
+                code:$scope.media.code || '',
+                sessionid:$scope.media.sessionid || ''
+            }).success(function (data) {
+                $rootScope.loading = false;
+                if(data.code == 0){
+                    sessionStorage.adminId = data.data.adminId;
+                    sessionStorage.token = data.data.token;
+                    sessionStorage.nodeIds = data.data.nodeIds;
+                    sessionStorage.schoolCode = data.data.schoolCode;
+                    sessionStorage.userName = data.data.userName;
+                    sessionStorage.roleName = data.data.roleName;
+                    sessionStorage.roleId = data.data.roleId;
+                    sessionStorage.userAccount = data.data.userAccount;
+                    sessionStorage.isOpenBed = data.data.isOpenBed;
+                    
+                    sessionStorage.week = data.data.week;
+                    sessionStorage.month = data.data.month;
+                    sessionStorage.day = data.data.day;
+                    sessionStorage.bed = data.data.bed;
+                    sessionStorage.pass = data.data.pass;
+                    sessionStorage.photo = data.data.photo;
+                    sessionStorage.role = data.data.role;
+                    sessionStorage.takephoto = data.data.takephoto;
+                    sessionStorage.check = data.data.check;
+                    
+                    $rootScope.loginSwitch = true;
+                    location.href = '#index';
+                }
+                else
+                    swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+            })
         }
     }]);

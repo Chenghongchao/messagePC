@@ -10,25 +10,26 @@
  */
 angular
   .module('messagePcApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ui.router',
-    'ngTouch'
+    'ui.router'
   ])
   .constant('AppConfig',{
      WEB_ROOT:'http://120.55.84.193/Geese_Quality_Supervision/',
     //   WEB_ROOT:'http://test.houqinbao.com/gyxt_api/',
-      schoolCode:sessionStorage.schoolCode || 0,
-	  token:sessionStorage.token || 0,
-      staffkey:sessionStorage.staffkey || 0,
-      schoolname:sessionStorage.schoolname
+    WEB_ROOT_MAIN:'http://120.55.84.193/Geese_Apartment/',
+    schoolCode:sessionStorage.schoolCode || 0,
+    token:sessionStorage.tokenMessage || 0,
+    staffkey:sessionStorage.staffkey || 0,
+    schoolname:sessionStorage.schoolname
   })
   .run(['$rootScope', '$location', 'AppConfig',
 		function($rootScope, $location, AppConfig) {
             $rootScope.menuManager = 1;
             $rootScope.loginSwitch = true;
-            
+            AppConfig.nodeIds = ',' + (sessionStorage.nodeIds||"") + ',';
+            $rootScope.menuCheck = function(menu){
+                if(AppConfig.nodeIds.length < 2) $location.path('/login');
+                return new RegExp(',' + menu + ',' ).test(AppConfig.nodeIds);
+            }
             
 			$rootScope.$on('$stateChangeStart',
 				function(event, toState, toParams, fromState, fromParams) {

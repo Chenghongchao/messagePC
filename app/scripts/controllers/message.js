@@ -62,8 +62,7 @@ angular.module('messagePcApp')
     }
     //检索功能
     $scope.search = function(search){
-        $scope.media.name = $scope.media.search?'':search;
-        $scope.media.studentnumber = $scope.media.search?search:'';
+        $scope.media.username = search;
         refresh();
     };
     $scope.work = null;

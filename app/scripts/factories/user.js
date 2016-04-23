@@ -61,7 +61,7 @@ angular.module('messagePcApp')
             swal("提示", "网络错误！", "error"); 
         });
     }
-    var login = function(param){
+    var loginMessage = function(param){
         var url = AppConfig.WEB_ROOT + 'message/account/pcaccountlogin/';
         return $http({
             url:url,
@@ -74,12 +74,27 @@ angular.module('messagePcApp')
             swal("提示", "网络错误！", "error"); 
         });//.get(url,param);
     }
+    var login = function(param){
+        var url = AppConfig.WEB_ROOT_MAIN + 'public/login/login/';
+        
+        return $http({
+            url:url,
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            params:param
+        }).error(function (error) {
+            swal("提示", "网络错误！", "error"); 
+        });
+    }
     return {
         getList:getList,
         addUser:addUser,
         editUser:editUser,
         delUser:delUser,
         getRoleList:getRoleList,
-        login:login
+        login:login,
+        loginMessage:loginMessage
     }
 }]);

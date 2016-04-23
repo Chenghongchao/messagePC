@@ -7,9 +7,13 @@
     </div>
     <div class="top-navigation" top-nav>
         <ul>
-            <li><a href="#index">公寓管理</a></li>
-            <li><a href="http://baidu.com">智能报修</a></li>
-            <li><a href="http://baidu.com">缴费中心</a></li>
+            <li><a ng-click="switch(0,'wechat')">微信平台</a></li>
+            <li ng-click="switch(0,'flat')"><a>公寓管理</a></li>
+            <li><a ng-click="switch(0,'repair')">智能报修</a></li>
+            <li ><a ng-click="switch(0,'food')">订餐系统</a></li>
+            <li ng-click="switch(0,'pay')"><a target="page-tab">缴费中心</a></li>
+            <li ng-click="switch(0,'data')"><a>数据中心</a></li>
+            <li ng-click="switch(0,'admin')"><a>系统设置</a></li>
             <li class="active"><a href="#index">服务监督</a></li>
         </ul>
     </div>
