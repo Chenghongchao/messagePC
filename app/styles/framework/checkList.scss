@@ -119,10 +119,13 @@
             }
             i.word-count{
                 position: absolute;
-                right: 15px;
+                right: 18px;
                 bottom: 5px;
                 font-style: normal;
                 color: #ccc;
+                &.danger{
+                    color: #f33;
+                }
             }
         }
         .check-btn-box,.check-input-box{

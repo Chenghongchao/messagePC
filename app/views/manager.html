@@ -108,7 +108,7 @@
             <div class="info-card-content">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        新增留言类型
+                        {{form.status?"编辑":"新增"}}回复人员
                         <a class="info-card-close"><i class="ALiconfont icon-close"></i></a>
                     </div>
                     <div class="panel-body">
@@ -135,8 +135,8 @@
                                 <tr>
                                     <td class="require">帐号</td><td><input type="text" ng-disabled="form.status" ng-model="form.account" /></td>
                                 </tr>
-                                <tr ng-hide="form.status">
-                                    <td class="require">密码</td><td><input type="password" ng-model="form.password" /></td>
+                                <tr>
+                                    <td class="require">新密码</td><td><input type="password" ng-model="form.password" /> <span style="font-size:12px">若不输入，则不更改密码</span></td>
                                 </tr>
                                 <td></td><td class="td-btn-box">
                                         <button type="submit" class="btn" ng-class="{'btn-success':!form.status,'btn-info':form.status}">{{form.status?'保存':'提交'}}</button>

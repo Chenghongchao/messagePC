@@ -6,14 +6,18 @@
     <ul class="history-list">
         <li><a href="#index">服务监督</a></li>
         <li><a href="#index">设置</a></li>
-        <li>设置</li>
+        <li>校区设置</li>
     </ul>
 </div>
 <div class="page-main" style="top:49px;">
     <div class="page-tree" tree>
         <ul>
             <li class="open" ng-repeat="group in treeSchoole">
-                <a ng-click="media.show(0,group)" ng-class="{'branch':group.slist,'leaf':!group.slist}">{{group.campus}}</a>
+                <a class="branch">
+                    
+                    <i class="ALiconfont icon-plus"></i>
+                    <span ng-click="media.show(0,group)">{{group.campus}}</span>
+                </a>
                 <ul ng-show="group.slist">
                     <li class="open" ng-repeat="item in group.slist||[]" >
                         <a ng-click="media.show(1,item,group.campus)" class="leaf">{{item.dutyname}}</a>

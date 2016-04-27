@@ -103,15 +103,16 @@ angular.module('messagePcApp')
         },
         subSave:function (fun) {
             if(this.status){
-                return UserService.editUser({
+                var param = {
                     jobnumber:this.jobnumber,
                     username:this.username,
                     contactmode:this.contactmode,
                     account:this.account,
-                    id:this.id,
-                }).success(function(data){
+                    id:this.id
+                }
+                if(this.password) param.password = this.password;
+                return UserService.editUser(param).success(function(data){
                     $rootScope.loading = false;
-                    
                     if(data.code == 0){
                         swal("提示", "修改成功！", "success"); 
                         if(fun)fun();

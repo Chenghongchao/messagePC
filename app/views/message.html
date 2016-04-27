@@ -11,7 +11,7 @@
 </div>
 <div class="tool-bar">
     <div class="bar-full message-tips">
-        <span>待回复</span>/已回复: <span>{{media.ReplyCount}}</span> / {{media.ToReplyCount}}
+        <span>待回复</span>/已回复: <span>{{media.ToReplyCount}}</span> / {{media.ReplyCount}}
     </div>
     <div class="group-tool">
         <div class="btn-group">
@@ -33,10 +33,13 @@
     <div class="page-tree" tree>
         <ul>
             <li class="open" ng-repeat="group in tree">
-                <a ng-click="show(0)" ng-class="{'branch':group.list,'leaf':!group.list}">{{group.name}}</a>
+                <a class="branch">
+                    <i class="ALiconfont icon-plus"></i>
+                    <span ng-click="show(0)">{{group.name}}</span>
+                </a>
                 <ul ng-show="group.list">
                     <li class="open" ng-repeat="item in group.list||[]">
-                        <a ng-click="show(1,item)" ng-class="leaf">{{item.name}}（<span>{{item.tcount}}</span>）</a>
+                        <a ng-click="show(1,item)" ng-class="leaf">{{item.name}}（<span class="tip" ng-click="show(2,item)">{{item.tcount}}</span>）</a>
                     </li>
                 </ul>
             </li>
@@ -145,21 +148,21 @@
                                 <div class="check-info">
                                     <div class="check-info-content">
                                         <div class="check-info-label">回复内容</div> 
-                                        <div ng-bind-html="reply.replycontent|TransferString"></div>
+                                        <div ng-bind="reply.replycontent"></div>
                                     </div>
                                     <div class="check-info-title">
                                         <div class="check-info-tip"></div> 
                                         <div>{{reply.rcreatedate}}</div>
-                                        <div><span>回复人</span>：{{reply.replyname}}</div>
+                                        <div><span>{{reply.isself?"留言":"回复"}}人</span>：{{reply.replyname}}</div>
                                     </div>
                                 </div>
                             </li>
-                            <li ng-if="work.list.length>0">
+                            <li ng-if="work.state>0">
                                 <div class="check-point"></div>
                                 <div>
                                     <div class="check-info">
-                                        <i class="word-count">200</i>
-                                        <textarea ng-model="form.content" rows="4"></textarea>
+                                        <i class="word-count" ng-class="{'danger':form.count<0}">{{form.count}}</i>
+                                        <textarea ng-keyup="form.checkCount()" ng-model="form.content" rows="4"></textarea>
                                     </div>
                                     <div class="check-btn-box">
                                         <div>
@@ -173,7 +176,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li ng-if="work.list.length<1">
+                            <li ng-if="work.state==0">
                                 <div class="check-point"></div>
                                 <div ng-hide="noticeSwitch">
                                     <div class="check-btn-box">

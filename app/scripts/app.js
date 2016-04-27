@@ -19,12 +19,20 @@ angular
     schoolCode:sessionStorage.schoolCode || 0,
     token:sessionStorage.tokenMessage || 0,
     staffkey:sessionStorage.staffkey || 0,
-    schoolname:sessionStorage.schoolname
+    schoolname:sessionStorage.schoolname||sessionStorage.userName
   })
   .run(['$rootScope', '$location', 'AppConfig',
 		function($rootScope, $location, AppConfig) {
             $rootScope.menuManager = 1;
             $rootScope.loginSwitch = true;
+            
+            //侧边栏收缩控制
+            var w = document.documentElement.clientWidth||document.body.clientWidth;
+            if(w < 1024) $rootScope.miniAside = true;
+            $rootScope.changeMini = function () {
+                $rootScope.miniAside = $rootScope.miniAside?false:true;
+            }
+            
             AppConfig.nodeIds = ',' + (sessionStorage.nodeIds||"") + ',';
             $rootScope.menuCheck = function(menu){
                 if(AppConfig.nodeIds.length < 2) $location.path('/login');

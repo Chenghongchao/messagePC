@@ -3,9 +3,10 @@ angular.module('messagePcApp')
     return {
         restrict: 'A',
         link:function(scope,iElement,iAttrs){
-            iElement.click(function(){
+            iElement.click(function(event){
                 var a = event.target;
-                if(a.tagName == 'A'){
+                if(a.tagName == 'I'){
+                    a = a.parentNode;
                     if($(a).hasClass('branch')){
                         var n = a.parentNode.className;
                         if(/open/.test(n)){

@@ -8,7 +8,7 @@
  * Controller of the messagePcApp
  */
 angular.module('messagePcApp')
-  .controller('MessageCtrl', ['$scope','$rootScope','MessageService','SettingService',function ($scope,$rootScope,MessageService,SettingService) {
+  .controller('MessageCtrl', ['$scope','$rootScope','MessageService','SettingService','$sce','$filter',function ($scope,$rootScope,MessageService,SettingService,$sce,$filter) {
         $rootScope.loading = false;
         //基础的页码、排序等等选项
     $scope.media = {
@@ -51,6 +51,10 @@ angular.module('messagePcApp')
         if(type){
             $scope.media.sid = item.sid || 0;
             $scope.media.tid = item.tid || 0;
+            if(type>1&&item.tcount>0)$scope.media.status=0;
+        }else{
+            $scope.media.sid = 0;
+            $scope.media.tid = 0;
         }
         
         refresh();
@@ -69,7 +73,6 @@ angular.module('messagePcApp')
     $scope.dataInfo = function (item) {
         $rootScope.loading = true;
         return MessageService.getDetail({id:item.id}).success(function(data){
-            console.log(data);
             if(data.code == 0){
                 $scope.work = data.data;
             }else if(data.code == 4037){
@@ -120,8 +123,10 @@ angular.module('messagePcApp')
     
     $scope.form = {
         content:'',
+        count:200,
         reply:function () {
             var that = this;
+            if(this.count>=0)
             return MessageService.addReply({
                 mid:$scope.work.id,
                 replycontent:this.content,
@@ -137,13 +142,18 @@ angular.module('messagePcApp')
                         rcreatedate:data.data.cratedate
                     });
                     that.content = "";
+                    that.checkCount();
                 }else if(data.code == 4037){
-                swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
-                location.href="#login";$rootScope.loading = false;
-            }
+                    swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                    location.href="#login";$rootScope.loading = false;
+                }
                 else
                     swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
             }); 
+        },
+        checkCount:function () {
+            
+            this.count = 200 - this.content.length;
         }
     }
     
@@ -167,7 +177,6 @@ angular.module('messagePcApp')
     function refresh() {
         $rootScope.loading = true;
         return MessageService.getList($scope.media).success(function(data){
-            console.log(data);
             if(data.code == 0){
                 $scope.list = data.data.list;
                 $scope.media.recordCount = data.data.recordCount;
