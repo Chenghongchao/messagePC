@@ -3,7 +3,7 @@ angular.module('messagePcApp')
     var getList = function(param){
         var url = AppConfig.WEB_ROOT + 'personnel/replystaf/getreplystaflist/?schoolcode=' + AppConfig.schoolCode
         +'&token='+AppConfig.token
-        + '&epage=' + (param.epage || 1) + '&pagesize=' + (param.pagesize || 10)
+        + '&epage=' + (param.epage || 1) + '&pagesize=' + (param.pagesize || 100)
         + (param.username?('&username='+param.username):'')
         + (param.jobnumber?('&jobnumber='+param.jobnumber):'')
         + (param.account?('&account='+param.account):'');
