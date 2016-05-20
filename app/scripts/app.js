@@ -10,7 +10,8 @@
  */
 angular
   .module('messagePcApp', [
-    'ui.router'
+    'ui.router',
+    'frapontillo.bootstrap-switch'
   ])
   .constant('AppConfig',{
      WEB_ROOT:'http://120.55.84.193/Geese_Quality_Supervision/',
