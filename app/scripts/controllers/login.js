@@ -110,7 +110,7 @@ angular.module('messagePcApp')
                     sessionStorage.check = data.data.check;
                     
                     $rootScope.loginSwitch = true;
-                    location.href = '#index';
+                    location.href = '/login/#/index?p=message';
                 }
                 else
                     swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 

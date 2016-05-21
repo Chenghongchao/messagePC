@@ -25,10 +25,10 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="page-header"  ui-view="header">
+    <div class="page-header"  ui-view="header" style="display:none;">
     </div>
-    <div class="page-aside"  ng-class="{'mini':miniAside}" ui-view="aside" ng-hide="frame"></div>
-    <div class="page-container" ng-hide="frame">
+    <div class="page-aside"  ng-class="{'mini':miniAside}" ui-view="aside" ng-hide="frame" style="top:0"></div>
+    <div class="page-container" ng-hide="frame" style="top:0">
         <div ui-view="" class="fadeIn animated"></div>
     </div>
     <div class="page-otherwise" ui-view="otherwise" ng-show="otherwise"></div>

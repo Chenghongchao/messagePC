@@ -124,55 +124,90 @@ angular.module('messagePcApp')
     $scope.form = {
         content:'',
         count:200,
+        templateid:"",
         reply:function () {
             var that = this;
-            if(this.count>=0)
-            return MessageService.addReply({
-                mid:$scope.work.id,
-                replycontent:this.content,
-                type:1
-            }).success(function(data){
-                $rootScope.loading = false;
-                
-                if(data.code == 0){
-                    $scope.work.list.push({
-                        rid:data.data.id,
-                        replycontent:that.content,
-                        replyname:data.data.replyname,
-                        rcreatedate:data.data.cratedate
-                    });
-                    that.content = "";
-                    that.checkCount();
-                }else if(data.code == 4037){
-                    swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
-                    location.href="#login";$rootScope.loading = false;
-                }
-                else
-                    swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
-            }); 
+            if(this.count>=0){
+                $rootScope.loading = true;
+                return MessageService.addReply({
+                    mid:$scope.work.id,
+                    replycontent:this.content,
+                    type:1
+                }).success(function(data){
+                    $rootScope.loading = false;
+                    
+                    if(data.code == 0){
+                        $scope.work.list.push({
+                            rid:data.data.id,
+                            replycontent:that.content,
+                            replyname:data.data.replyname,
+                            rcreatedate:data.data.cratedate
+                        });
+                        that.content = "";
+                        that.checkCount();
+                    }else if(data.code == 4037){
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                        location.href="#login";$rootScope.loading = false;
+                    }
+                    else
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                }); 
+            }
         },
         checkCount:function () {
             
             this.count = 200 - this.content.length;
+        },
+        send:function () {
+            if(this.templateid.length>0){
+                $rootScope.loading = true;
+                return MessageService.send({
+                    messageid:$scope.work.id,
+                    templateid:this.templateid
+                }).success(function(data){
+                    $rootScope.loading = false;
+                    if(data.code == 0){
+                        swal("提示", "发送成功！", "success"); 
+                    }else if(data.code == 4037){
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                        location.href="#login";$rootScope.loading = false;
+                    }
+                    else
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                }); 
+            }
         }
     }
     
-    
-    
-    
-    SettingService.getList().success(function(data){
-        if(data.code == 0){
-            $scope.tree = data.data;
-            refresh();
-        }else if(data.code == 4037){
+
+    SettingService.getTemplateList({
+        epage:1,pagesize:100
+    }).success(function(data){
+            if(data.code == 0){
+                $scope.template = data.data.list;
+                
+                SettingService.getList().success(function(data){
+                    if(data.code == 0){
+                        $scope.tree = data.data;
+                        refresh();
+                    }else if(data.code == 4037){
+                            swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                            location.href="#login";$rootScope.loading = false;
+                        }
+                    else
+                        swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                    $rootScope.loading = false;
+                    
+                });
+                
+            }else if(data.code == 4037){
+                    swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                    location.href="#login";$rootScope.loading = false;
+                }
+            else
                 swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
-                location.href="#login";$rootScope.loading = false;
-            }
-        else
-            swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
-        $rootScope.loading = false;
-        
-    });
+        });
+    
     
     function refresh() {
         $rootScope.loading = true;
