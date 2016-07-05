@@ -18,7 +18,7 @@ angular.module('messagePcApp')
             sessionid:''
         };
         $rootScope.loading = false;
-        
+        var lo = 0;
         $scope.login = function () {
             if($scope.media.user.length > 0 && $scope.media.pass.length > 0){
                 $rootScope.loading = true;
@@ -51,6 +51,7 @@ angular.module('messagePcApp')
                         form.target = "test";
                         form.method = "post";
                         form.action = "/index.php?s=/Home/User/login.html";
+                        // form.action = "http://www.houqinbao.com/index.php?s=/Home/User/login.html";
                         var input1 = document.createElement("input"),input2 = document.createElement("input");
                         input1.name = "username";
                         input1.value = $scope.media.user;
@@ -62,11 +63,19 @@ angular.module('messagePcApp')
                         form.appendChild(input2);
                         
                         form.submit();
-                        login();
-                        
+                        // login();
+                        document.getElementById("login-frame").onload = function () {
+                            if(lo == 1){
+                                login();
+                            }
+                            lo++;
+                        }
                     }
-                    else
+                    else{
+                        $rootScope.loading = false;
                         swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 
+                    }
+                        
                 })
             }
             
@@ -101,7 +110,7 @@ angular.module('messagePcApp')
                     sessionStorage.check = data.data.check;
                     
                     $rootScope.loginSwitch = true;
-                    location.href = '#index';
+                    location.href = '/login/#/index?p=message';
                 }
                 else
                     swal("提示","错误代码："+ data.code + '，' + data.msg, "error"); 

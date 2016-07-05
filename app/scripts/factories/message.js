@@ -49,11 +49,26 @@ angular.module('messagePcApp')
             swal("提示", "网络错误！", "error"); 
         });//.get(url,param);
     }
-
+    var send = function(param){
+        param.token = param.token || AppConfig.token;
+        param.schoolcode = param.schoolcode || AppConfig.schoolCode;
+        var url = AppConfig.WEB_ROOT + 'message/message/sendtempletemessage/';
+        return $http({
+            url:url,
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            params:param
+        }).error(function (error) {
+            swal("提示", "网络错误！", "error"); 
+        });//.get(url,param);
+    }
     return {
         getList:getList,
         delMessage:delMessage,
         getDetail:getDetail,
-        addReply:addReply
+        addReply:addReply,
+        send:send
     }
 }]);

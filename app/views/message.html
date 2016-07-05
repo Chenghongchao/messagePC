@@ -193,12 +193,13 @@
                                 <div ng-show="noticeSwitch">
                                     <div class="check-btn-box">
                                         <div>
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="form.templateid">
                                                 <option value="">请选择模版消息</option>
+                                                <option ng-repeat="tem in template" value="{{tem.id}}">{{tem.templatename}}</option>
                                             </select>
                                         </div>
                                         <div>
-                                            <a class="btn btn-addon btn-info"><i class="glyphicon glyphicon-send"></i>发送</a>
+                                            <a class="btn btn-addon btn-info" ng-click="form.send()"><i class="glyphicon glyphicon-send"></i>发送</a>
                                         </div>
                                         <div>
                                             <a class="btn btn-default" ng-click="noticeBox(0)">取消</a>

@@ -10,6 +10,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
     <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
     <!-- endbower -->
     <!-- endbuild -->
@@ -24,10 +25,10 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="page-header"  ui-view="header">
+    <div class="page-header"  ui-view="header" style="display:none;">
     </div>
-    <div class="page-aside"  ng-class="{'mini':miniAside}" ui-view="aside" ng-hide="frame"></div>
-    <div class="page-container" ng-hide="frame">
+    <div class="page-aside"  ng-class="{'mini':miniAside}" ui-view="aside" ng-hide="frame" style="top:0"></div>
+    <div class="page-container" ng-hide="frame" style="top:0">
         <div ui-view="" class="fadeIn animated"></div>
     </div>
     <div class="page-otherwise" ui-view="otherwise" ng-show="otherwise"></div>
@@ -50,7 +51,12 @@
             </div>
         </div>
     </div>
-<iframe name="test" style="display:none;z-index:1000000;position:fixed;top:100px;left:100px;width:100px;height:100px;background:#f33;"></iframe>
+    <div class="page-frame">
+        <iframe name="page-tab" frameborder="no" scrolling="auto" allowtransparency="true" width="100%" height="100%">
+            
+        </iframe>
+    </div>
+<iframe name="test" id="login-frame" style="display:none;"></iframe>
 
 <div class="login-view" ui-view='login' ng-hide="loginSwitch"></div>
     <!-- build:js(.) scripts/vendor.js -->
@@ -59,6 +65,8 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+    <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"></script>
     <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
@@ -77,7 +85,7 @@
         <script src="scripts/directives/tree.js"></script>
         <script src="scripts/directives/header.js"></script>
         <script src="scripts/directives/infoCard.js"></script>
-        TransferString
+        
         <script src="scripts/factories/message.js"></script>
         <script src="scripts/factories/setting.js"></script>
         <script src="scripts/factories/user.js"></script>
